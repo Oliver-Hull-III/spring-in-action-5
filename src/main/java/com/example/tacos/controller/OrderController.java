@@ -37,7 +37,6 @@ public class OrderController {
         }
 
         return "orderForm";
-  git config --global user.name "Your Name"
     }
 
     @PostMapping
