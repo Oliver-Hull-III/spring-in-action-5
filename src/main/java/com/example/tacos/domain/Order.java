@@ -7,6 +7,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Digits;
@@ -28,6 +29,9 @@ public class Order extends BaseEntity {
     @NotBlank(message = "Name can't be blank")
     @Size(max = 50, message = "Name must be less than 50 characters")
     private String name;
+
+    @ManyToOne
+    private User user;
 
     @Valid
     @Embedded

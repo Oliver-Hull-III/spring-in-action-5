@@ -3,8 +3,11 @@ package com.example.tacos.controller;
 import javax.validation.Valid;
 
 import com.example.tacos.domain.Order;
+import com.example.tacos.domain.User;
 import com.example.tacos.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -34,17 +37,21 @@ public class OrderController {
         }
 
         return "orderForm";
+  git config --global user.name "Your Name"
     }
 
     @PostMapping
     public String processOrder(
             @Valid Order order,
             Errors errors,
-            SessionStatus sessionStatus) {
+            SessionStatus sessionStatus,
+            @AuthenticationPrincipal User user) {
 
         if (errors.hasErrors()) {
             return "orderForm";
         }
+
+        order.setUser(user);
 
         orderRepository.save(order);
         sessionStatus.setComplete();
