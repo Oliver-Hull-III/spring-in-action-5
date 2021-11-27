@@ -1,0 +1,38 @@
+spring:
+    profiles:
+        active: dev
+
+logging:
+    level:
+        tacos: DEBUG
+
+---
+
+spring: 
+    config:
+        activate:
+            on-profile: dev
+
+    datasource:
+        url: jdbc:h2:mem:tacoclouddb
+        data: classpath:db/h2/data.sql
+    
+    jpa.open-in-view: false
+
+    h2.console.enabled: true
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: prod
+
+    datasource:
+        url: jdbc:mysql://localhost/tacoclouddb
+        username: tacouser
+        password: tacopassword
+    
+logging:
+    level:
+        tacos: WARN

@@ -1,10 +1,12 @@
 package com.example.tacos.domain;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -33,6 +35,8 @@ public class Order extends BaseEntity {
     @ManyToOne
     private User user;
 
+    private Date placedAt;
+
     @Valid
     @Embedded
     @NotNull(message = "Address can't be null")
@@ -53,7 +57,7 @@ public class Order extends BaseEntity {
     @Size(min = 3, max = 3, message = "CVV code must be 3 characters long")
     private String cvv;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "taco_order_tacos")
     @NotEmpty(message = "You must add at least 1 taco")
     private List<Taco> tacos = new ArrayList<>();

@@ -1,5 +1,7 @@
 package com.example.tacos.controller;
 
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import com.example.tacos.domain.Order;
@@ -7,6 +9,8 @@ import com.example.tacos.domain.User;
 import com.example.tacos.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,10 +55,20 @@ public class OrderController {
         }
 
         order.setUser(user);
-
+        order.setPlacedAt(new Date());
         orderRepository.save(order);
         sessionStatus.setComplete();
 
         return "redirect:/";
     }
+
+    @GetMapping
+    public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
+        Pageable pageable = PageRequest.of(0, 20);
+
+        model.addAttribute("orders", orderRepository.findByUserOrderByPlacedAtDesc(user, pageable));
+
+        return "orderList";
+    }
+    
 }

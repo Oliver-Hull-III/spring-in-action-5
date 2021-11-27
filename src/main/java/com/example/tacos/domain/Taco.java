@@ -3,6 +3,7 @@ package com.example.tacos.domain;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -22,7 +23,7 @@ public class Taco extends BaseEntity {
     @Size(min = 3, max = 50, message = "Name length must be between 3 and 50 characters")
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "taco_ingredients")
     @NotEmpty(message = "Ingredients can't be empty")
     private List<Ingredient> ingredients;
